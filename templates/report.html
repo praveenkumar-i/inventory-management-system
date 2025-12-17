@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Balance Report</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+    <div style="margin-bottom: 20px;">
+        <a href="/" class="edit-btn" style="background:#007bff;">Products</a>
+        <a href="/locations" class="edit-btn" style="background:#007bff;">Locations</a>
+        <a href="/movements" class="edit-btn" style="background:#007bff;">Movements</a>
+        <a href="/report" class="edit-btn" style="background:#00ff33;">Balance Report</a>
+    </div>
+
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        
+        <h2 style="margin: 0;">📊 Inventory Balance Report</h2>
+
+        <div>
+            <input type="text" id="searchInput" onkeyup="filterTable()" 
+                   placeholder="🔍 Search Location or Product..." 
+                   style="padding: 10px; width: 500px; border: 1px solid #ccc; border-radius: 5px; outline: none; font-size: 16px;">
+        </div>
+
+    </div>
+
+    <table id="reportTable">
+        <thead>
+            <tr>
+                <th>Location / Warehouse</th>
+                <th>Product Name</th>
+                <th>Current Balance (Qty)</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in report %}
+            <tr>
+                <td>{{ row.location_name }}</td>
+                <td>{{ row.product_name }}</td>
+                <td style="font-weight: bold; color: {% if row.qty > 0 %}green{% else %}red{% endif %};">
+                    {{ row.qty }}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <script>
+        function filterTable() {
+            var input, filter, table, tr, td, i;
+            input = document.getElementById("searchInput");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("reportTable");
+            tr = table.getElementsByTagName("tr");
+
+            // Loop through all table rows
+            for (i = 1; i < tr.length; i++) { // Start from 1 to skip Header
+                var tdLocation = tr[i].getElementsByTagName("td")[0];
+                var tdProduct = tr[i].getElementsByTagName("td")[1];
+                
+                if (tdLocation || tdProduct) {
+                    var locText = tdLocation.textContent || tdLocation.innerText;
+                    var prodText = tdProduct.textContent || tdProduct.innerText;
+
+                    if (locText.toUpperCase().indexOf(filter) > -1 || prodText.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+        }
+    </script>
+
+</body>
+</html>

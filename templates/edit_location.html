@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Location</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+    <h2>✏️ Edit Location</h2>
+
+    <div class="form-container">
+        <form action="/update_location/{{ location.location_id }}" method="POST">
+            
+            <label>Location Name:</label><br>
+            <input type="text" name="location_name" value="{{ location.location_name }}" required>
+            <br>
+
+            <button type="submit">Update Location</button>
+            <a href="/locations" style="margin-left: 10px; text-decoration: none; color: #555;">Cancel</a>
+        </form>
+    </div>
+
+</body>
+</html>

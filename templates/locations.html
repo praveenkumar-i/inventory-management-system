@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Location Management</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+     <div style="margin-bottom: 20px;">
+        <a href="/" class="edit-btn" style="background:#007bff;">Products</a>
+        <a href="/locations" class="edit-btn" style="background:#007bff;">Locations</a>
+        <a href="/movements" class="edit-btn" style="background:#007bff;">Movements</a>
+        <a href="/report" class="edit-btn" style="background:#00ff33;">Balance Report</a>
+    </div>
+
+    <h2>📍 Location Management</h2>
+
+    <div class="form-container">
+        <form action="/add_location" method="POST">
+            <label>New Location Name:</label><br>
+            <input type="text" name="location_name" placeholder="Ex: Chennai Warehouse" required>
+            <br>
+            <button type="submit">Add Location</button>
+        </form>
+    </div>
+
+    <h3>Available Locations</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Location Name</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for loc in locations %}
+            <tr>
+                <td>{{ loc.location_id }}</td>
+                <td>{{ loc.location_name }}</td>
+                <td>
+                    <a href="/edit_location/{{ loc.location_id }}" class="edit-btn">Edit</a>
+                </td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="3" style="text-align:center;">No locations found. Add one above!</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</body>
+</html>

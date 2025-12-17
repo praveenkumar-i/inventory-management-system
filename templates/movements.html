@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Product Movements</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+ <div style="margin-bottom: 20px;">
+        <a href="/" class="edit-btn" style="background:#007bff;">Products</a>
+        <a href="/locations" class="edit-btn" style="background:#007bff;">Locations</a>
+        <a href="/movements" class="edit-btn" style="background:#007bff;">Movements</a>
+        <a href="/report" class="edit-btn" style="background:#00ff33;">Balance Report</a>
+    </div>
+    <h2>🚚 Product Movements</h2>
+
+    {% if error %}
+    <div style="background-color: #ffcccc; color: red; padding: 15px; margin: 20px 0; border: 1px solid red; border-radius: 5px;">
+        <strong>Error:</strong> {{ error }}
+    </div>
+    {% endif %}
+
+    <div class="form-container">
+        <form action="/add_movement" method="POST">
+            
+            <label>Select Product:</label><br>
+            <select name="product_id" required style="width: 75%; padding: 10px; margin-bottom: 10px;">
+                <option value="" disabled selected>-- Choose Product --</option>
+                {% for p in products %}
+                    <option value="{{ p.product_id }}">{{ p.product_name }}</option>
+                {% endfor %}
+            </select>
+            <br>
+
+            <label>Quantity:</label><br>
+            <input type="number" name="qty" placeholder="Ex: 10" required>
+            <br>
+
+            <label>From Location (Optional):</label><br>
+            <select name="from_location" style="width: 75%; padding: 10px; margin-bottom: 10px;">
+                <option value="">-- None (Initial Stock) --</option>
+                {% for l in locations %}
+                    <option value="{{ l.location_id }}">{{ l.location_name }}</option>
+                {% endfor %}
+            </select>
+            <br>
+
+            <label>To Location (Optional):</label><br>
+            <select name="to_location" style="width: 75%; padding: 10px; margin-bottom: 10px;">
+                <option value="">-- None (Sold/Removed) --</option>
+                {% for l in locations %}
+                    <option value="{{ l.location_id }}">{{ l.location_name }}</option>
+                {% endfor %}
+            </select>
+            <br>
+
+            <button type="submit">Move Product</button>
+        </form>
+    </div>
+
+    <h3>Movement History</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Time</th>
+                <th>Product</th>
+                <th>Qty</th>
+                <th>From</th>
+                <th>To</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for m in movements %}
+            <tr>
+                <td>{{ m.timestamp }}</td>
+                <td><b>{{ m.product_name }}</b></td>
+                <td>{{ m.qty }}</td>
+                <td style="color: red;">{{ m.from_loc if m.from_loc else '-' }}</td>
+                <td style="color: green;">{{ m.to_loc if m.to_loc else '-' }}</td>
+            </tr>
+            {% else %}
+            <tr><td colspan="5" style="text-align:center;">No movements recorded yet.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</body>
+</html>
