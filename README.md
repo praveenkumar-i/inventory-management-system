@@ -92,7 +92,7 @@ Follow these steps to run the project locally:
 
 ## 📸 Screenshots
 
-*(Please check the `project_screenshots` folder in this repository to view the Project Dashboard, Movements, and Reports)*
+*(Please check the `project_screenshots/` folder in this repository to view the Project Dashboard, Movements, and Reports)*
 
 
 
