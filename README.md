@@ -98,5 +98,5 @@ Follow these steps to run the project locally:
 
 ---
 
-*Submitted by: PraveenKumar I*
+*Submitted by: Praveenkumar I*
 
